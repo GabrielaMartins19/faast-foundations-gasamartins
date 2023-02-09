@@ -8,6 +8,7 @@ import pandas as pd
 def load_data() -> pd.DataFrame:
     '''
     Function to load data.
+    :return: DataFrame with loaded data from path.
     '''
     # define path
     read_path = pathlib.Path(__file__).parent / 'data/eu_life_expectancy_raw.tsv'
@@ -20,6 +21,9 @@ def load_data() -> pd.DataFrame:
 def clean_data(data_toclean: pd.DataFrame, region: str = 'PT') -> pd.DataFrame:
     '''
     Function to clean_data.
+    :param data_toclean: DataFrame data loaded to clean.
+    :param region: String of region we want to filter. By default is 'PT'.
+    :return: DataFrame cleaned data.
     '''
     # rename column region
     data_toclean = data_toclean.rename(columns={data_toclean.columns[3]:"region"})
@@ -47,6 +51,7 @@ def clean_data(data_toclean: pd.DataFrame, region: str = 'PT') -> pd.DataFrame:
 def save_data(data_tosave: pd.DataFrame) -> None:
     '''
     Function to save data.
+    :param data_tosave: DataFrame with data to save.
     '''
     # write to csv
     write_path = pathlib.Path(__file__).parent / 'data/pt_life_expectancy.csv'
@@ -55,6 +60,7 @@ def save_data(data_tosave: pd.DataFrame) -> None:
 def main(region: str = 'PT') -> None:
     '''
     Main function.
+    :param region: String with the region to filter data. By default 'PT'.
     '''
     # load data
     data = load_data()
