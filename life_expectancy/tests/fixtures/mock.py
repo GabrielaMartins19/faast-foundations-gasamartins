@@ -1,3 +1,5 @@
+"""Mock file"""
+
 def raw_data() -> dict:
     """
     Function to mock row data.
