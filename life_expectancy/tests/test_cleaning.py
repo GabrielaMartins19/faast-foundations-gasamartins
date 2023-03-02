@@ -3,7 +3,7 @@ import pandas as pd
 import pytest
 from unittest.mock import patch, Mock
 
-from life_expectancy.cleaning import main, load_data, clean_data
+from life_expectancy.cleaning import main, load_data, clean_data, save_data
 from life_expectancy.tests.fixtures.mock import raw_data, expect_data
 
 from . import OUTPUT_DIR
@@ -24,7 +24,6 @@ def test_load_data(read_table_mock: Mock, fixture_raw_data):
 
     pd.testing.assert_frame_equal(results, fixture_raw_data)
 
-
 def test_clean_data(fixture_raw_data, fixture_expected_data):
     pt_life_expectancy_data = clean_data(
         fixture_raw_data,
@@ -34,3 +33,15 @@ def test_clean_data(fixture_raw_data, fixture_expected_data):
     pd.testing.assert_frame_equal(
         pt_life_expectancy_data, fixture_expected_data
     )
+
+def test_save_data(fixture_expected_data, capfd):
+    with patch.object(fixture_expected_data, 'to_csv') as to_csv_mock:
+        to_csv_mock.side_effect = print('Data saved', end="")
+        save_data(
+            fixture_expected_data
+        )
+        to_csv_mock.assert_called_once()
+
+        # capfd: capture stdout
+        out, _ = capfd.readouterr()
+        assert out == "Data saved"
