@@ -18,7 +18,7 @@ def load_data() -> pd.DataFrame:
 
     return df_data
 
-def clean_data(data_toclean: pd.DataFrame, region: str = 'PT') -> pd.DataFrame:
+def clean_data(data_toclean: pd.DataFrame, region) -> pd.DataFrame:
     '''
     Function to clean_data.
     :param data_toclean: DataFrame data loaded to clean.
@@ -76,13 +76,8 @@ if __name__ == "__main__":  # pragma: no cover
     # create parser
     parser = argparse.ArgumentParser()
     # add the argument region
-    parser.add_argument('--r', type=str, help='Region')
+    parser.add_argument('--r', type=str, help='Region', default='PT')
     # parse args
     args = parser.parse_args()
-    # call clean data with optional arg
-
-    # main
-    if args.r:
-        main(args.r)
-    else:
-        main()
+    # call main with optional arg
+    main(args.r)
