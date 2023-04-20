@@ -1,4 +1,6 @@
 """Test main"""
+# pylint: disable=redefined-outer-name
+# pylint: disable=unused-import
 from unittest.mock import patch, Mock
 from life_expectancy.main import Countries, main
 from .fixtures.mock import fixture_raw_data

@@ -1,6 +1,9 @@
 """Load data in other formats"""
 # pylint: disable=redefined-outer-name
 # pylint: disable=too-few-public-methods
+# pylint: disable=anomalous-backslash-in-string
+# pylint: disable=no-member
+# pylint: disable=attribute-defined-outside-init
 import pathlib
 from abc import ABC
 import re
@@ -11,7 +14,8 @@ class LoadData(ABC):
     Class used to load data from different types of files (tsv, zipped json)
     """
 
-    def read_data(self, filename: str, path: pathlib.Path):
+    @staticmethod
+    def read_data(filename: str, path: pathlib.Path):
         """Load data"""
 
 class LoadDataTSVSV(LoadData):
@@ -29,7 +33,7 @@ class LoadDataTSVSV(LoadData):
         """
 
         # Define full path to file
-        file = (path / filename)
+        file = path / filename
 
         # Read data from path
         df_data = pd.read_csv(file, sep='[,\t]', engine='python')
@@ -41,6 +45,7 @@ class LoadZippedData(LoadData):
     Load data from JSON in zipped file
     """
 
+    @staticmethod
     def read_data(filename: str, path: pathlib.Path) -> pd.DataFrame:
         """
         Function to read data from file.

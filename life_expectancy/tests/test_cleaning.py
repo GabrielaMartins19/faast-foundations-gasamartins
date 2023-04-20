@@ -1,4 +1,6 @@
 """Tests for cleaning"""
+# pylint: disable=redefined-outer-name
+# pylint: disable=unused-import
 from unittest.mock import patch
 import pandas as pd
 from life_expectancy import clean_save
