@@ -1,32 +1,30 @@
 """Mock file"""
+import pathlib
+import pytest
+import pandas as pd
 
-def raw_data() -> dict:
-    """
-    Function to mock row data.
-    :return: Dict with data
-    """
-    data = {
-        'unit': ['YR', 'YR', 'YR'],
-        'sex': ['F', 'F', 'F'],
-        'age': ['Y1', 'Y1', 'Y1'],
-        'geo\time': ['AM', 'AL', 'PT'],
-        '2021': ['79.4', '80.4', '80.2'],
-        '2020': ['79.1', '79.2', '78.5'],
-        '2019': ['82.9', '83.5', '83.3']
-    }
-    return data
+path = pathlib.Path(__file__).parent
 
-def expect_data() -> dict:
+@pytest.fixture()
+def fixture_raw_data() -> pd.DataFrame:
     """
-    Function to mock expected data.
-    :return: Dict with data.
+    Load raw data.
+    :return: DataFrame with raw data.
     """
-    data = {
-        'unit': ['YR', 'YR', 'YR'],
-        'sex': ['F', 'F', 'F'],
-        'age': ['Y1', 'Y1', 'Y1'],
-        'region': ['PT', 'PT', 'PT'],
-        'year': [2021, 2020, 2019],
-        'value': [80.2, 78.5, 83.3]
-    }
-    return data
+    return pd.read_csv(path / 'data_raw.csv')
+
+@pytest.fixture()
+def fixture_loaded_data() -> pd.DataFrame:
+    """
+    Load loaded data.
+    :return: DataFrame with loaded data.
+    """
+    return pd.read_csv(path / 'data_loaded.csv')
+
+@pytest.fixture()
+def fixture_expected_data() -> pd.DataFrame:
+    """
+    Load expected data.
+    :return: DataFrame with expected data.
+    """
+    return pd.read_csv(path / 'data_expected.csv')
