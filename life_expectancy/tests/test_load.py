@@ -1,9 +1,6 @@
 """Tests for load data"""
-# pylint: disable=redefined-outer-name
-# pylint: disable=unused-import
 from unittest.mock import patch, Mock
 from life_expectancy.load_data import DataOptions
-from .fixtures.mock import fixture_raw_data
 from . import OUTPUT_DIR
 
 @patch('life_expectancy.load_data.pd.read_csv')

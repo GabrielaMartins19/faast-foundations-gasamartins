@@ -1,7 +1,5 @@
-"""Load, clean and save data"""
-import pathlib
+"""Clean data"""
 import pandas as pd
-
 
 def clean_data(data_toclean: pd.DataFrame) -> pd.DataFrame:
     '''
@@ -31,12 +29,3 @@ def clean_data(data_toclean: pd.DataFrame) -> pd.DataFrame:
     data_toclean['value'] = data_toclean['value'].astype(float)
 
     return data_toclean
-
-def save_data(data_tosave: pd.DataFrame) -> None:
-    '''
-    Function to save data.
-    :param data_tosave: DataFrame with data to save.
-    '''
-    # write to csv
-    write_path = pathlib.Path(__file__).parent / 'data/pt_life_expectancy.csv'
-    data_tosave.to_csv(write_path, index=False)

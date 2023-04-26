@@ -1,9 +1,6 @@
 """Test main"""
-# pylint: disable=redefined-outer-name
-# pylint: disable=unused-import
 from unittest.mock import patch, Mock
 from life_expectancy.main import Countries, main
-from .fixtures.mock import fixture_raw_data
 
 def test_countries():
     """Test countries"""
@@ -60,7 +57,7 @@ def test_countries():
     assert not set(countries_list) ^ set(countries_expected)
 
 @patch('life_expectancy.main.save_data')
-@patch('life_expectancy.clean_save.pd.read_csv')
+@patch('life_expectancy.clean.pd.read_csv')
 def test_main(read_mock: Mock, write_mock: Mock, fixture_raw_data):
     """Test main"""
     read_mock.return_value = fixture_raw_data

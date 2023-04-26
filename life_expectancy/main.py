@@ -4,7 +4,10 @@ import argparse
 from enum import Enum
 from itertools import chain
 from .load_data import DataOptions
-from .clean_save import save_data
+from .save import save_data
+
+# Define constant path
+path = pathlib.Path(__file__).parent / 'data'
 
 # Create enum of countries
 class Countries(Enum):
@@ -86,12 +89,10 @@ def main(filename: str, region: str) -> None:
     :param region: Region to filter
     """
     region = Regions(region.upper()).name
-    path = pathlib.Path(__file__).parent / 'data'
 
     dataoptions = DataOptions(filename=filename, path=path)
 
     dataoptions.load_data()
-    #dataoptions.filter_data(region)
 
     save_data(data_tosave=dataoptions.data)
 

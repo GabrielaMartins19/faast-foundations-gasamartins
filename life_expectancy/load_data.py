@@ -1,15 +1,10 @@
 """Load data in other formats"""
-# pylint: disable=redefined-outer-name
-# pylint: disable=too-few-public-methods
-# pylint: disable=anomalous-backslash-in-string
-# pylint: disable=no-member
-# pylint: disable=attribute-defined-outside-init
 import pathlib
 from abc import ABC
 import re
 import pandas as pd
 
-class LoadData(ABC):
+class DataLoader(ABC): # pylint: disable=too-few-public-methods
     """
     Class used to load data from different types of files (tsv, zipped json)
     """
@@ -18,7 +13,7 @@ class LoadData(ABC):
     def read_data(filename: str, path: pathlib.Path):
         """Load data"""
 
-class LoadDataTSVSV(LoadData):
+class DataLoaderTSV(DataLoader): # pylint: disable=too-few-public-methods
     """
     Load data from TSV file
     """
@@ -40,7 +35,7 @@ class LoadDataTSVSV(LoadData):
 
         return df_data
 
-class LoadZippedData(LoadData):
+class LoadZippedData(DataLoader): # pylint: disable=too-few-public-methods
     """
     Load data from JSON in zipped file
     """
@@ -54,7 +49,7 @@ class LoadZippedData(LoadData):
         :return: Dataframe with loaded data from file
         """
 
-        data = pd.read_json(
+        data = pd.read_json( # pylint: disable=no-member
                         path / filename, compression='infer'
                     ).drop(
                         columns=['flag', 'flag_detail']
@@ -62,10 +57,12 @@ class LoadZippedData(LoadData):
 
         return data
 
-class DataOptions():
+class DataOptions(): # pylint: disable=too-few-public-methods
     """
     Load all type of data
     """
+
+    data = pd.DataFrame()
 
     def __init__(self, filename: str, path: pathlib.Path) -> None:
         """
@@ -76,15 +73,15 @@ class DataOptions():
 
         self._filename = filename
         self._path = path
-        self._extension = re.search("\.(.*)", self._filename)[0]
+        self._extension = re.search(r"\.(.*)", self._filename)[0]
 
-    def _get_extension(self) -> LoadData:
+    def _get_extension(self) -> DataLoader:
         """
         Function to obtain the extension of file and return the correct loader
         """
 
         if self._extension == ".tsv":
-            return LoadDataTSVSV()
+            return DataLoaderTSV()
         if self._extension == ".zip":
             return LoadZippedData()
 
@@ -98,4 +95,4 @@ class DataOptions():
         """
 
         loader = self._get_extension()
-        self.data: pd.DataFrame = loader.read_data(self._filename, self._path)
+        self.data = loader.read_data(self._filename, self._path)
